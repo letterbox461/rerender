@@ -1,26 +1,72 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { IData } from "./interfaces";
+import "./App.css";
 
-function App() {
+const initialData: IData[] = [];
+
+for (let i = 0; i < 5000; i++) {
+  initialData.push({
+    id: i,
+    name: `Ivan the ${i}`,
+    age: Math.round(Math.random() * 50),
+    selected: false,
+  });
+}
+
+const TD = styled.td`
+  border: 1px solid black;
+  margin: 0px;
+  padding: 0px;
+`;
+const Table = styled.table`
+  border-spacing: 0px;
+`;
+
+const App = () => {
+  const [data, setData] = useState<IData[]>(initialData);
+
+  const handleSelection = (ev: React.ChangeEvent<HTMLInputElement>): void => {
+    setData(
+      data.map((e) => {
+        if (e.id === Number(ev.target.id)) {
+          return { ...e, selected: !e.selected };
+        } else return e;
+      })
+    );
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Table>
+        <tbody>
+          <tr>
+            <TD></TD>
+            <TD>Name</TD>
+            <TD>age</TD>
+          </tr>
+        </tbody>
+        <tbody>
+          {data.map((e) => {
+            return (
+              <tr key={e.id}>
+                <TD>
+                  <input
+                    id={`${e.id}`}
+                    type={"checkbox"}
+                    checked={e.selected}
+                    onChange={(ev) => handleSelection(ev)}
+                  />
+                </TD>
+                <TD>{e.name}</TD>
+                <TD>{e.age}</TD>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
     </div>
   );
-}
+};
 
 export default App;

@@ -1,0 +1,32 @@
+<script>
+	
+	const initialData=[]
+	for (let i = 0; i < 50000; i++) {
+  initialData.push({
+    id: i,
+    name: `Ivan the ${i}`,
+    age: Math.round(Math.random() * 50),
+    selected: false,
+  });
+}</script>
+
+ <table style={{ borderSpacing: "0px" }}>
+        <tbody>
+          <tr>
+            <td>sel</td>
+            <td>Name</td>
+            <td>age</td>
+          </tr>
+        </tbody>
+	 <tbody>
+		
+	 {#each initialData as data}
+	 <tr>
+		 <td><input type='checkbox' bind:checked={data.selected} /><td/>
+		 <td>{data.name}<td/>
+		 <td>{data.age}<td/>
+	 </tr>	
+	 {/each}
+		   </tbody>
+</table>
+	 
